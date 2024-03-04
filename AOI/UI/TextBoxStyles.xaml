@@ -1,61 +1,37 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style x:Key="BaseTextBox" TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-        <Style.Resources>
-            <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
-                <VisualBrush.Visual>
-                    <Label Content="浮水印顯示文字" Foreground="#FF6DC33C"/>
-                </VisualBrush.Visual>
-            </VisualBrush>
-        </Style.Resources>
+    <Style x:Key="BaseTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="TextBox">
-                    <Border BorderThickness="2" BorderBrush="Blue" CornerRadius="10" Background="{TemplateBinding Background}">
-                        <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Background="{x:Null}" BorderThickness="0" IsTabStop="False"></ScrollViewer>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border Background="{TemplateBinding Background}"
+                         BorderBrush="{TemplateBinding BorderBrush}"
+                         BorderThickness="{TemplateBinding BorderThickness}"
+                         CornerRadius="10">
+                        <Grid>
+                            <!-- 使用水平居中来置中文本 -->
+                            <ScrollViewer x:Name="PART_ContentHost" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="WatermarkText"
+                                    Text="{TemplateBinding Tag}"
+                                    Foreground="Green"
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Visibility="Collapsed"/>
+                        </Grid>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- 触发器用于在文本框为空时显示浮水印 -->
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="WatermarkText" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <!-- 触发器用于在文本框获得焦点时隐藏浮水印 -->
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="WatermarkText" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-            </Trigger>
-            <Trigger Property="Text" Value="{x:Null}">
-                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-            </Trigger>
-            <Trigger Property="IsKeyboardFocused" Value="True">
-                <Setter Property="Background" Value="White" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-    <Style x:Key="ImagePathTextBox" TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-        <Style.Resources>
-            <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
-                <VisualBrush.Visual>
-                    <Label Content="請輸入影像路徑!" Foreground="#FF6DC33C"/>
-                </VisualBrush.Visual>
-            </VisualBrush>
-        </Style.Resources>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="TextBox">
-                    <Border BorderThickness="2" BorderBrush="Blue" CornerRadius="10" Background="{TemplateBinding Background}">
-                        <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Background="{x:Null}" BorderThickness="0" IsTabStop="False"></ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-            </Trigger>
-            <Trigger Property="Text" Value="{x:Null}">
-                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-            </Trigger>
-            <Trigger Property="IsKeyboardFocused" Value="True">
-                <Setter Property="Background" Value="White" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 </ResourceDictionary>

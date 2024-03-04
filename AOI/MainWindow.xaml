@@ -47,7 +47,7 @@
                         <Image x:Name="Display_Image" Stretch="Fill" MouseMove="Display_Image_MouseMove" Margin="0,0,0,0"/>
                     </Border>
                     <Button x:Name="Open_Image_Path" Style="{StaticResource FileButtonStyle}" Margin="12,418,910,35" FontSize="18" Height="51" Width="54" Click="Main_Btn_Click"/>
-                    <TextBox x:Name="Image_Path" Style="{StaticResource ImagePathTextBox}" Margin="75,425,510,42" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="Image_Path" Style="{StaticResource BaseTextBox}" Tag="請輸入影像路徑!" Margin="75,425,510,42"/>
                     <Grid>
                         <RichTextBox Margin="577,414,267,64" Background="#FFE6F0FF" FontSize="14" BorderThickness="0">
                             <FlowDocument>
