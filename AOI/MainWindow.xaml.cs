@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using OpenCvSharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -72,6 +73,23 @@ namespace AOI
                 }
             }
         }
+
+        private BitmapImage MatToBitmapImage(Mat mat)
+        {
+            Bitmap bitmap = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(mat);
+            using (MemoryStream memory = new MemoryStream())
+            {
+                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
+                memory.Position = 0;
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memory;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+                return bitmapImage;
+            }
+        }
         #endregion
 
         #region Parameter and Init
@@ -79,6 +97,7 @@ namespace AOI
         {
             Mag.IsEnabled = false;
         }
+        Algorithm Do = new Algorithm();
         #region Log
         BaseLogRecord Logger = new BaseLogRecord();
         //Logger.WriteLog("儲存參數!", LogLevel.General, richTextBoxGeneral);
@@ -118,6 +137,20 @@ namespace AOI
                             {
                                 MessageBox.Show("Error: " + ex.Message);
                             }
+                        }
+                        break;
+                    }
+                case nameof(Pre_Annotation):
+                    {
+                        string imagefile = Image_Path.Text;
+                        if (!string.IsNullOrEmpty(imagefile))
+                        {
+                            Mat src = Cv2.ImRead(imagefile, ImreadModes.Color);
+                            Display_Image.Source = MatToBitmapImage(Do.BoundingBox(src, 120));
+                        }
+                        else
+                        {
+                            MessageBox.Show("請輸入影像路徑!", "警告", MessageBoxButton.OK, MessageBoxImage.Warning);
                         }
                         break;
                     }

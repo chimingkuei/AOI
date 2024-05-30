@@ -60,8 +60,9 @@
                             </FlowDocument>
                         </RichTextBox>
                     </Grid>
-                    <CheckBox x:Name="Switch_Mag" Style="{StaticResource BaseCheckBox}" Background="#FF43B5BF" Content="Off" Tag="On" FontSize="15" Margin="517,419,392,37" Checked="Switch_Mag_Checked" Unchecked="Switch_Mag_Unchecked" RenderTransformOrigin="1.022,0.581"/>
                     <Label x:Name="Mag_Label" Content="放大鏡:" HorizontalAlignment="Left" Margin="467,429,0,0" VerticalAlignment="Top" FontSize="14"/>
+                    <CheckBox x:Name="Switch_Mag" Style="{StaticResource BaseCheckBox}" Background="#FF43B5BF" Content="Off" Tag="On" FontSize="15" Margin="517,419,392,37" Checked="Switch_Mag_Checked" Unchecked="Switch_Mag_Unchecked"/>
+                    <Button x:Name="Pre_Annotation" Style="{StaticResource CircleButton}" Content="Pre-Annotation" FontSize="12" Width="100" Height="100" Margin="728,25,148,379" Click="Main_Btn_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="參數畫面" Style="{StaticResource BaseTabcontrol}">

@@ -60,6 +60,6 @@ D:\Chimingkuei\repos\AOI\AOI\obj\x64\Debug\AOI.g.resources
 D:\Chimingkuei\repos\AOI\AOI\obj\x64\Debug\AOI.Properties.Resources.resources
 D:\Chimingkuei\repos\AOI\AOI\obj\x64\Debug\AOI.csproj.GenerateResource.cache
 D:\Chimingkuei\repos\AOI\AOI\obj\x64\Debug\AOI.csproj.CoreCompileInputs.cache
-D:\Chimingkuei\repos\AOI\AOI\obj\x64\Debug\AOI.csproj.CopyComplete
 D:\Chimingkuei\repos\AOI\AOI\obj\x64\Debug\AOI.exe
 D:\Chimingkuei\repos\AOI\AOI\obj\x64\Debug\AOI.pdb
+D:\Chimingkuei\repos\AOI\AOI\obj\x64\Debug\AOI.csproj.Up2Date
