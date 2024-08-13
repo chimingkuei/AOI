@@ -1,9 +1,11 @@
-﻿using System;
+﻿using OpenCvSharp;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Point = OpenCvSharp.Point;
 
 namespace AOI
 {
@@ -31,26 +33,34 @@ namespace AOI
             return Tuple.Create(m, -1.0, c);
         }
 
-        public OpenCvSharp.Mat Binarization(OpenCvSharp.Mat src, double threshold)
+        public Mat Binarization(Mat src, double threshold)
         {
-            OpenCvSharp.Mat grayImg = new OpenCvSharp.Mat();
-            OpenCvSharp.Cv2.CvtColor(src, grayImg, OpenCvSharp.ColorConversionCodes.BGR2GRAY);
-            OpenCvSharp.Mat binaryImg = new OpenCvSharp.Mat();
-            OpenCvSharp.Cv2.Threshold(grayImg, binaryImg, threshold, 255, OpenCvSharp.ThresholdTypes.Binary);
+            Mat grayImg = new Mat();
+            Cv2.CvtColor(src, grayImg, ColorConversionCodes.BGR2GRAY);
+            Mat binaryImg = new Mat();
+            Cv2.Threshold(grayImg, binaryImg, threshold, 255, ThresholdTypes.Binary);
             return binaryImg;
         }
 
-        public OpenCvSharp.Mat BoundingBox(OpenCvSharp.Mat src, double threshold)
+        public Mat BoundingBox(Mat src, double threshold)
         {
-            OpenCvSharp.Mat binaryImg = Binarization(src, threshold);
-            OpenCvSharp.Cv2.FindContours(binaryImg, out OpenCvSharp.Point[][] contours, out OpenCvSharp.HierarchyIndex[] hierarchy, OpenCvSharp.RetrievalModes.Tree, OpenCvSharp.ContourApproximationModes.ApproxSimple);
-            OpenCvSharp.Mat dst = src.Clone();
+            Mat binaryImg = Binarization(src, threshold);
+            Cv2.FindContours(binaryImg, out Point[][] contours, out HierarchyIndex[] hierarchy, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
+            Mat dst = src.Clone();
             foreach (var contour in contours)
             {
-                OpenCvSharp.Rect boundingRect = OpenCvSharp.Cv2.BoundingRect(contour);
-                OpenCvSharp.Cv2.Rectangle(dst, boundingRect, OpenCvSharp.Scalar.Red, 2);
+                Rect boundingRect = Cv2.BoundingRect(contour);
+                Cv2.Rectangle(dst, boundingRect, Scalar.Red, 2);
             }
             return dst;
+        }
+
+        public double CalculateGrayAverage(Mat src)
+        {
+            Mat grayImage = new Mat();
+            Cv2.CvtColor(src, grayImage, ColorConversionCodes.BGR2GRAY);
+            Scalar meanValue = Cv2.Mean(grayImage);
+            return meanValue.Val0;
         }
 
     }

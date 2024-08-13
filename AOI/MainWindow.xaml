@@ -41,10 +41,14 @@
             <TabItem Header="主畫面" Style="{StaticResource BaseTabcontrol}">
                 <Grid>
                     <Border BorderBrush="Black" BorderThickness="2" Margin="0,4,264,92">
-                        <xctk:MagnifierManager.Magnifier>
-                            <xctk:Magnifier x:Name="Mag" BorderBrush="Green" BorderThickness="1" Radius="100" ZoomFactor=".5" />
-                        </xctk:MagnifierManager.Magnifier>
-                        <Image x:Name="Display_Image" Stretch="Fill" MouseMove="Display_Image_MouseMove" Margin="0,0,0,0"/>
+                        <Grid MouseDown="DrawROI_MouseDown" MouseUp="DrawROI_MouseUp" MouseMove="DrawROI_MouseMove">
+                            <xctk:MagnifierManager.Magnifier>
+                                <xctk:Magnifier x:Name="Mag" BorderBrush="Green" BorderThickness="1" Radius="100" ZoomFactor=".5" />
+                            </xctk:MagnifierManager.Magnifier>
+                            <Image x:Name="Display_Image" Stretch="Fill" MouseMove="Display_Image_MouseMove" Margin="0,0,0,0"/>
+                            <Rectangle x:Name="Red_Rect" StrokeThickness="2" Stroke="Red" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="695,388,0,0"/>
+                            <Rectangle x:Name="Blue_Rect" StrokeThickness="2" Stroke="Blue" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="695,388,0,0"/>
+                        </Grid>
                     </Border>
                     <Button x:Name="Open_Image_Path" Style="{StaticResource FileButtonStyle}" Margin="12,418,910,35" FontSize="18" Height="51" Width="54" Click="Main_Btn_Click"/>
                     <TextBox x:Name="Image_Path" Style="{StaticResource BaseTextBox}" Tag="請輸入影像路徑!" Margin="75,425,510,42"/>

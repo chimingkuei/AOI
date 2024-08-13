@@ -90,18 +90,46 @@ namespace AOI
                 return bitmapImage;
             }
         }
+
+        private void DrawROI(System.Windows.Point _downPoint, System.Windows.Rect rect)
+        {
+            double ratio_x = (double)target_image.Width / 708;
+            double ratio_y = (double)target_image.Height / 404;
+            int x = (int)(_downPoint.X * ratio_x);
+            int y = (int)(_downPoint.Y * ratio_y);
+            int w = (int)(rect.Width * ratio_x);
+            int h = (int)(rect.Height * ratio_y);
+            OpenCvSharp.Rect roi = new OpenCvSharp.Rect(x, y, w, h);
+            Mat roiImage = new Mat(target_image, roi);
+            Logger.WriteLog("灰階平均值:" + Do.CalculateGrayAverage(roiImage).ToString(), LogLevel.General, richTextBoxGeneral);
+        }
+
+        private void ShowROI(System.Windows.Shapes.Rectangle ROI, System.Windows.Rect rect)
+        {
+            ROI.Margin = new Thickness(rect.Left, rect.Top, 0, 0);
+            ROI.Width = rect.Width;
+            ROI.Height = rect.Height;
+        }
         #endregion
 
         #region Parameter and Init
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Mag.IsEnabled = false;
+            Red_Rect.Visibility = Visibility.Hidden;
+            Blue_Rect.Visibility = Visibility.Hidden;
         }
         Algorithm Do = new Algorithm();
-        #region Log
         BaseLogRecord Logger = new BaseLogRecord();
-        //Logger.WriteLog("儲存參數!", LogLevel.General, richTextBoxGeneral);
-        #endregion
+        private bool _started1;
+        private System.Windows.Point _downPoint1;
+        private System.Windows.Rect rect1;
+        private bool _started1_state;
+        private bool _started2;
+        private System.Windows.Point _downPoint2;
+        private System.Windows.Rect rect2;
+        private bool _started2_state;
+        private Mat target_image;
         #region Config
         BaseConfig<Parameter> Config = new BaseConfig<Parameter>();
         //Load Config
@@ -132,6 +160,7 @@ namespace AOI
                                 BitmapImage bitmapImage = new BitmapImage(new Uri(openFileDialog.FileName));
                                 Display_Image.Source = bitmapImage;
                                 Image_Path.Text = openFileDialog.FileName;
+                                target_image = Cv2.ImRead(Image_Path.Text);
                             }
                             catch (Exception ex)
                             {
@@ -145,8 +174,7 @@ namespace AOI
                         string imagefile = Image_Path.Text;
                         if (!string.IsNullOrEmpty(imagefile))
                         {
-                            Mat src = Cv2.ImRead(imagefile, ImreadModes.Color);
-                            Display_Image.Source = MatToBitmapImage(Do.BoundingBox(src, 120));
+                            Display_Image.Source = MatToBitmapImage(Do.BoundingBox(target_image, 120));
                         }
                         else
                         {
@@ -169,6 +197,67 @@ namespace AOI
         }
         #endregion
 
+        #region MouseButton event
+        private void DrawROI_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Red_Rect.Visibility = Visibility.Visible;
+                _started1 = true;
+                _downPoint1 = e.GetPosition(Display_Image);
+                //Console.WriteLine($"X座標:{_downPoint1.X}");
+                //Console.WriteLine($"Y座標:{_downPoint1.Y}");
+            }
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                Blue_Rect.Visibility = Visibility.Visible;
+                _started2 = true;
+                _downPoint2 = e.GetPosition(Display_Image);
+                //Console.WriteLine($"X座標:{_downPoint2.X}");
+                //Console.WriteLine($"Y座標:{_downPoint2.Y}");
+            }
+        }
+
+        private void DrawROI_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (_started1_state)
+            {
+                _started1 = false;
+                DrawROI(_downPoint1, rect1);
+                _started1_state = false;
+            }
+            if (_started2_state)
+            {
+                _started2 = false;
+                DrawROI(_downPoint2, rect2);
+                _started2_state = false;
+            }
+        }
+
+        private void DrawROI_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                if (_started1)
+                {
+                    var point = e.GetPosition(Display_Image);
+                    rect1 = new System.Windows.Rect(_downPoint1, point);
+                    ShowROI(Red_Rect, rect1);
+                    _started1_state = true;
+                }
+            }
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                if (_started2)
+                {
+                    var point = e.GetPosition(Display_Image);
+                    rect2 = new System.Windows.Rect(_downPoint2, point);
+                    ShowROI(Blue_Rect, rect2);
+                    _started2_state = true;
+                }
+            }
+        }
+        #endregion
 
     }
 }
