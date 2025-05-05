@@ -321,14 +321,14 @@ namespace RTAutoMetric
                     {
                         //SaveConfig(0, 0);
 
-                        Tuple<OpenCvSharp.Point, OpenCvSharp.Point> line = new Tuple<OpenCvSharp.Point, OpenCvSharp.Point>(new OpenCvSharp.Point(500, 150), new OpenCvSharp.Point(750, 250)); // 定義線段
+                        Tuple<OpenCvSharp.Point, OpenCvSharp.Point> line = new Tuple<OpenCvSharp.Point, OpenCvSharp.Point>(new OpenCvSharp.Point(148, 132), new OpenCvSharp.Point(481, 196)); // 定義線段
                         int stepSize = 1;   // 採樣間隔
                         int maxDist = 500;    // 最大搜尋距離
-                        Do.outputFolder = @"E:\DIP Temp\Image Temp";
-                        Do.fileName = @"E:\DIP Temp\Image Temp\202503041745086657_WaterHole1.bmp";
+                        Do.outputFolder = @"E:\DIP Temp\Image Temp\Test";
+                        Do.fileName = @"E:\DIP Temp\Image Temp\Test\3_Spot.bmp";
                         Do.fileExtension = ".bmp";
                         Mat src = Cv2.ImRead(Do.fileName);
-                        Do.FLByWhiteDot(src, 230, line, stepSize, maxDist, true, -1);
+                        Do.FLByWhiteDot(src, 220, line, stepSize, maxDist, true, -1);
                         break;
                     }
             }

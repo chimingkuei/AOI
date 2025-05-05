@@ -105,7 +105,7 @@ namespace RTAutoMetric
             Mat grayImg = new Mat();
             Cv2.CvtColor(img, grayImg, ColorConversionCodes.BGR2GRAY);
             Mat binaryInv = new Mat();
-            Cv2.Threshold(grayImg, binaryInv, threshold, 255, ThresholdTypes.BinaryInv);
+            Cv2.Threshold(grayImg, binaryInv, threshold, 255, ThresholdTypes.Binary);
             return binaryInv;
         }
 
@@ -240,13 +240,13 @@ namespace RTAutoMetric
                 if (whitePoint.HasValue)
                 {
                     fitLinePoints.Add(whitePoint.Value);
-                    Cv2.Circle(src, whitePoint.Value, 3, Scalar.Red, -1);
+                    //Cv2.Circle(src, whitePoint.Value, 3, Scalar.Red, -1);
                 }
                 Point end = new Point(start.X + (direction ? 1 : -1) * maxDist * nx,
                                       start.Y + (direction ? 1 : -1) * maxDist * ny);
                 // 畫出搜尋路徑 (黃色)
-                if (saveImg)
-                    Cv2.Line(src, start, end, Scalar.Yellow, 1);
+                //if (saveImg)
+                    //Cv2.Line(src, start, end, Scalar.Yellow, 1);
             }
             filterLinePoints = FLOutlier(fitLinePoints, k);
             if (filterLinePoints.Count < 2)

@@ -4,7 +4,7 @@
 exe
 C#
 .cs
-D:\Chimingkuei\repos\AOI\AOI\obj\x64\Debug\
+D:\Chimingkuei\repos\AOI\AOI\obj\Debug\
 AOI
 none
 false
@@ -12,8 +12,8 @@ DEBUG;TRACE
 D:\Chimingkuei\repos\AOI\AOI\App.xaml
 10-713151501
 4-2117614247
-9478750468
-361951665205
+9675085102
+35-1676943692
 MainWindow.xaml;UI\ButtonStyles.xaml;UI\CheckBoxStyles.xaml;UI\ComboBoxStyles.xaml;UI\GroupBoxStyles.xaml;UI\RadioButtonStyles.xaml;UI\SliderStyles.xaml;UI\TabControlStyles.xaml;UI\TextBoxStyles.xaml;UI\ToggleButtonStyles.xaml;
 
 True
